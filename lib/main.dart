@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'Question.dart';
+
+import 'quizbrain.dart';
+
+Quizbrain quizbrain = Quizbrain();
 
 void main() => runApp(Quizzler());
 
@@ -24,9 +27,6 @@ class Quizpage extends StatefulWidget {
 
 class _QuizpageState extends State<Quizpage> {
   List<Icon> scorekeeper = [];
-  List<Question> questionbank = [
-    Question(q: 'You can lead a cow down stairs but not up stairs.', a: false),
-  ];
 
   int questionNo = 0;
 
@@ -41,7 +41,7 @@ class _QuizpageState extends State<Quizpage> {
           child: Center(
             child: Container(
               child: Text(
-                questionbank[questionNo].questionText,
+                quizbrain.questionbank[questionNo].questionText,
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
             ),
@@ -53,7 +53,8 @@ class _QuizpageState extends State<Quizpage> {
             child: FlatButton(
               color: Colors.green,
               onPressed: () {
-                bool correctanswers = questionbank[questionNo].questionanswers;
+                bool correctanswers =
+                    quizbrain.questionbank[questionNo].questionanswers;
                 if (correctanswers == true) {
                   print('the user got it right');
                 } else {
@@ -82,7 +83,8 @@ class _QuizpageState extends State<Quizpage> {
             child: FlatButton(
               color: Colors.red,
               onPressed: () {
-                bool correctanswers = questionbank[questionNo].questionanswers;
+                bool correctanswers =
+                    quizbrain.questionbank[questionNo].questionanswers;
                 if (correctanswers == false) {
                   print('user got it right');
                 } else {
