@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'quizbrain.dart';
+
+Quizbrain quizbrain = Quizbrain();
+
 void main() => runApp(Quizzler());
 
 class Quizzler extends StatelessWidget {
@@ -7,91 +11,102 @@ class Quizzler extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.grey.shade900,
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            child: QuizPage(),
-          ),
-        ),
+        backgroundColor: Colors.black,
+        body: SafeArea(child: Quizpage()),
       ),
     );
   }
 }
 
-class QuizPage extends StatefulWidget {
+class Quizpage extends StatefulWidget {
+  const Quizpage({Key key}) : super(key: key);
+
   @override
-  _QuizPageState createState() => _QuizPageState();
+  _QuizpageState createState() => _QuizpageState();
 }
 
-class _QuizPageState extends State<QuizPage> {
+class _QuizpageState extends State<Quizpage> {
+  List<Icon> scorekeeper = [];
+
+  int questionNo = 0;
+
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Expanded(
           flex: 5,
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Center(
+          child: Center(
+            child: Container(
               child: Text(
-                'This is where the question text will go.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25.0,
-                  color: Colors.white,
-                ),
+                quizbrain.questionbank[questionNo].questionText,
+                style: TextStyle(color: Colors.white, fontSize: 25),
               ),
             ),
           ),
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(10.0),
             child: FlatButton(
-              textColor: Colors.white,
               color: Colors.green,
-              child: Text(
-                'True',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
+              onPressed: () {
+                bool correctanswers =
+                    quizbrain.questionbank[questionNo].questionanswers;
+                if (correctanswers == true) {
+                  print('the user got it right');
+                } else {
+                  print('the user got it wrong');
+                }
+                setState(() {
+                  questionNo++;
+                });
+                print(questionNo);
+              },
+              child: Container(
+                child: Text(
+                  'True',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
                 ),
               ),
-              onPressed: () {
-                //The user picked true.
-              },
             ),
           ),
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(10.0),
             child: FlatButton(
               color: Colors.red,
-              child: Text(
-                'False',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
+              onPressed: () {
+                bool correctanswers =
+                    quizbrain.questionbank[questionNo].questionanswers;
+                if (correctanswers == false) {
+                  print('user got it right');
+                } else {
+                  print('user got it wrong');
+                }
+              },
+              child: Container(
+                child: Text(
+                  'False',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
                 ),
               ),
-              onPressed: () {
-                //The user picked false.
-              },
             ),
           ),
         ),
-        //TODO: Add a Row here as your score keeper
+        Row(
+          children: [],
+        )
       ],
     );
   }
 }
-
-/*
-question1: 'You can lead a cow down stairs but not up stairs.', false,
-question2: 'Approximately one quarter of human bones are in the feet.', true,
-question3: 'A slug\'s blood is green.', true,
-*/
