@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Question.dart';
 
 void main() => runApp(Quizzler());
 
@@ -23,9 +24,12 @@ class Quizpage extends StatefulWidget {
 
 class _QuizpageState extends State<Quizpage> {
   List<Icon> scorekeeper = [];
-  List<String> question = [];
-  List<bool> answers = [];
+  List<Question> questionbank = [
+    Question(q: 'You can lead a cow down stairs but not up stairs.', a: false),
+  ];
+
   int questionNo = 0;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,7 +41,7 @@ class _QuizpageState extends State<Quizpage> {
           child: Center(
             child: Container(
               child: Text(
-                'You can lead a cow down stairs but not up stairs.',
+                questionbank[questionNo].questionText,
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
             ),
@@ -48,7 +52,18 @@ class _QuizpageState extends State<Quizpage> {
             padding: const EdgeInsets.all(10.0),
             child: FlatButton(
               color: Colors.green,
-              onPressed: () {},
+              onPressed: () {
+                bool correctanswers = questionbank[questionNo].questionanswers;
+                if (correctanswers == true) {
+                  print('the user got it right');
+                } else {
+                  print('the user got it wrong');
+                }
+                setState(() {
+                  questionNo++;
+                });
+                print(questionNo);
+              },
               child: Container(
                 child: Text(
                   'True',
@@ -66,7 +81,14 @@ class _QuizpageState extends State<Quizpage> {
             padding: const EdgeInsets.all(10.0),
             child: FlatButton(
               color: Colors.red,
-              onPressed: () {},
+              onPressed: () {
+                bool correctanswers = questionbank[questionNo].questionanswers;
+                if (correctanswers == false) {
+                  print('user got it right');
+                } else {
+                  print('user got it wrong');
+                }
+              },
               child: Container(
                 child: Text(
                   'False',
