@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'quizbrain.dart';
 
 Quizbrain quizbrain = Quizbrain();
@@ -28,8 +29,6 @@ class Quizpage extends StatefulWidget {
 class _QuizpageState extends State<Quizpage> {
   List<Icon> scorekeeper = [];
 
-  int questionNo = 0;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -41,7 +40,7 @@ class _QuizpageState extends State<Quizpage> {
           child: Center(
             child: Container(
               child: Text(
-                quizbrain.questionbank[questionNo].questionText,
+                quizbrain.getQQuestionText(Random().nextInt(13) - 0),
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
             ),
@@ -54,16 +53,15 @@ class _QuizpageState extends State<Quizpage> {
               color: Colors.green,
               onPressed: () {
                 bool correctanswers =
-                    quizbrain.questionbank[questionNo].questionanswers;
+                    quizbrain.getCCorectanswers(Random().nextInt(13) - 0);
                 if (correctanswers == true) {
                   print('the user got it right');
                 } else {
                   print('the user got it wrong');
                 }
                 setState(() {
-                  questionNo++;
+                  quizbrain.nextquestion();
                 });
-                print(questionNo);
               },
               child: Container(
                 child: Text(
@@ -84,12 +82,15 @@ class _QuizpageState extends State<Quizpage> {
               color: Colors.red,
               onPressed: () {
                 bool correctanswers =
-                    quizbrain.questionbank[questionNo].questionanswers;
+                    quizbrain.getCCorectanswers(Random().nextInt(13) - 0);
                 if (correctanswers == false) {
                   print('user got it right');
                 } else {
                   print('user got it wrong');
                 }
+                setState(() {
+                  quizbrain.nextquestion();
+                });
               },
               child: Container(
                 child: Text(
